@@ -29,6 +29,14 @@ app.use('/api/auth', authRoute)
 app.use('/api/posts', postRoute)
 app.use('/api/apply', applicationRoute)
 
+if (process.env.NODE_ENV === 'production') {
+    app.use('/', express.static(path.join(__dirname, 'client-mern-blog', 'src')))
+  
+    app.get('*', (req, res) => {
+      res.sendFile(path.resolve(__dirname, 'client-mern-blog', 'build', 'index.html'))
+    })
+  }
+
 async function start() {
     try {
         await mongoose.connect(

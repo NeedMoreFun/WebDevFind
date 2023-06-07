@@ -29,13 +29,7 @@ app.use('/api/auth', authRoute)
 app.use('/api/posts', postRoute)
 app.use('/api/apply', applicationRoute)
 
-if (process.env.NODE_ENV === 'production') {
-    app.use('/', express.static(path.join(__dirname, 'client-mern-blog', 'src')))
-  
-    app.get('*', (req, res) => {
-      res.sendFile(path.resolve(__dirname, 'client-mern-blog', 'build', 'index.html'))
-    })
-  }
+const HOST = 'mern.website'
 
 async function start() {
     try {
@@ -43,7 +37,7 @@ async function start() {
             `mongodb+srv://${DB_USER}:${DB_PASSWORD}@cluster0.chckn9c.mongodb.net/${DB_NAME}?retryWrites=true&w=majority`,
         )
 
-        app.listen(PORT, () => console.log(`Server started on port: ${PORT}`))
+        app.listen(PORT, HOST, () => console.log(`Server started on ${HOST}: ${PORT}`))
     } catch (error) {
         console.log(error)
     }
